@@ -23,11 +23,11 @@ for ARG in $argv
         echo '
         return packages that contain the search string'
         return 1
-    case '--begins-with', '-b'
+    case '--begins-with' '-b'
         set MODE begins_with
-    case '--ends-with', '-e'
+    case '--ends-with' '-e'
         set MODE ends_with
-    case '--contains', '-c'
+    case '--contains' '-c'
         set MODE all
     case '*'
         set SEARCH_STRING $ARG
@@ -46,8 +46,12 @@ else
     case 'all'
         set SEARCH_STRING (string join '' '*' $SEARCH_STRING '*')
     end #switch $MODE
- 
+
     for PACKAGE in (pacman -Q)
         string match $SEARCH_STRING $PACKAGE
+        switch $status
+            case 0
+                echo $PACKAGE
+        end #switch $status
     end #for package in (pacman -Q)
 end #if set SEARCH_STRING
